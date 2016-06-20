@@ -1,9 +1,19 @@
 {
   "name": "typespace",
   "version": "0.0.1",
+  "author": {
+    "name": "Josh Goldberg",
+    "email": "joshuakgoldberg@outlook.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:JoshuaKGoldberg/Typespace.git"
+  },
+  "bugs": {
+    "url": "https://github.com/JoshuaKGoldberg/Typespace/issues"
+  },
   "description": "Converts import/require-style TypeScript directories into a unified namespace output.",
   "main": "index.js",
   "scripts": {},
-  "author": "Josh Goldberg",
   "license": "MIT"
 }
