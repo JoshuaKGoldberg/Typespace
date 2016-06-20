@@ -1,0 +1,9 @@
+{
+  "name": "typespace",
+  "version": "0.0.1",
+  "description": "Converts import/require-style TypeScript directories into a unified namespace output.",
+  "main": "index.js",
+  "scripts": {},
+  "author": "Josh Goldberg",
+  "license": "MIT"
+}
