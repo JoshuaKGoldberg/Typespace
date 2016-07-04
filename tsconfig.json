@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es6",
+        "noImplicitAny": true,
+        "sourceMap": false
+    },
+    "files": [
+        "src/Typespace.ts",
+        "src/Reading/SourceFile.ts",
+        "src/Reading/SourceModule.ts",
+        "src/Reading/SourceModuleFactory.ts",
+        "src/Writing/DependencyOrderer.ts",
+        "src/Writing/SourceFilePrinter.ts",
+        "src/Writing/SourceFilesPrinter.ts",
+        "src/Writing/SourceModulesPrinter.ts"
+    ]
+}

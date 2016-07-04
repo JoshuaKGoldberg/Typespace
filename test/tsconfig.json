@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es5",
+        "noImplicitAny": false,
+        "sourceMap": false
+    },
+    "files": [
+        "src/ITestInterface.ts",
+        "src/TestClass.ts",
+        "src/Utilities/IUtility.ts",
+        "src/Utilities/Utility.ts",
+        "src/Utilities/Deep/IDeepUtility.ts"
+    ]
+}

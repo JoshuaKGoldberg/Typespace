@@ -1,0 +1,26 @@
+#! /usr/bin/env node
+/// <reference path="../typings/node/index.d.ts" />
+
+var commander = require("commander");
+var fs = require("fs");
+var package = require("../package.json");
+var Typespace = require("../src/Typespace").Typespace;
+
+commander
+    .description(package.description)
+    .version(package.version)
+    .usage("-n MyProject -p tsconfig.json [-o output.ts] [-r root]")
+    .option("-n --namespace [string]", "name of the output root namespace")
+    .option("-o --out [path]", "output .ts file path")
+    .option("-p --project [path]", "input tsconfig.json file path")
+    .option("-r --root [string]", "root namespace to ignore from module paths")
+    .parse(process.argv);
+
+new Typespace(commander).convert()
+    .then(contents => {
+        if (commander.out) {
+            fs.writeFileSync(commander.out, contents);
+        }
+    })
+    .catch(error => console.error(error.stack));
+

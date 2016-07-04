@@ -1,4 +1,4 @@
-import { IUtility } from "./Utilities/IUtility";
+import { IUtility, IAnotherUtility } from "./Utilities/IUtility";
 import { ITestInterface } from "./ITestInterface";
 
 /**
@@ -8,7 +8,12 @@ export class TestClass implements ITestInterface {
     /**
      * A sample utility.
      */
-    private utility: IUtility;
+    public utility: IUtility;
+
+    /**
+     * Another sample utility.
+     */
+    public anotherUtility: IAnotherUtility;
 
     /**
      * @returns The sample utility.
