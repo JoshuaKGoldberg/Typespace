@@ -12,7 +12,7 @@ export interface ITypespaceSettings {
     /**
      * Name of the output root namespace.
      */
-    namespace: string;
+    rootNamespace: string;
 
     /**
      * Input tsconfig.json path.
@@ -41,8 +41,8 @@ export class Typespace {
      * @param settings   Settings to run.
      */
     constructor(settings: ITypespaceSettings) {
-        if (!settings.namespace) {
-            throw new Error("You need to specify a -n/--namespace string.");
+        if (!settings.rootNamespace) {
+            throw new Error("You need to specify a -rn/--rootNamespace string.");
         }
 
         if (!settings.project) {
@@ -67,11 +67,10 @@ export class Typespace {
             throw new Error(`'${this.settings.project}' does not define an array of files.`);
         }
 
-        const rootPath = path.dirname(this.settings.project);
-        const sourceModuleFactory = new SourceModuleFactory(rootPath, config.files);
-        const sourceModulePrinter = new SourceModulesPrinter(sourceModuleFactory.sourceModules, this.settings);
-        const output = await sourceModulePrinter.print();
+        const rootPath: string = path.dirname(this.settings.project);
+        const sourceModuleFactory: SourceModuleFactory = new SourceModuleFactory(rootPath, config.files);
+        const sourceModulesPrinter: SourceModulesPrinter = new SourceModulesPrinter(sourceModuleFactory.sourceModules, this.settings);
 
-        return output;
+        return await sourceModulesPrinter.print();
     }
 }

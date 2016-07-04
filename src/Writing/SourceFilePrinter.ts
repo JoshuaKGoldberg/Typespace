@@ -1,4 +1,4 @@
-/// <reference path="../../node_modules/typescript/lib/typescript.d.ts" />
+/// <reference path="../../typings/typescript/index.d.ts" />
 /// <reference path="../../typings/fs-extra/index.d.ts" />
 
 import * as fs from "fs-promise";
@@ -23,6 +23,20 @@ export class SourceFilePrinter {
      * Full contents of the source file.
      */
     contents: string;
+
+    /**
+     * Initializes a new instance of the SourceFilePrinter class.
+     * 
+     * @param sourceFile   The source file to be printed.
+     * @param rootNamespace   Root namespace to ignore from module paths.
+     * @returns A promise for a new instance of the SourceFilePrinter class.
+     */
+    public static async fromSourceFile(sourceFile: SourceFile, rootNamespace: string): Promise<SourceFilePrinter> {
+        return new SourceFilePrinter(
+            sourceFile,
+            rootNamespace,
+            (await fs.readFile(sourceFile.fullPath)).toString());
+    }
 
     /**
      * Initializes a new instance of the SourceFilePrinter class.
@@ -106,23 +120,8 @@ export class SourceFilePrinter {
             return undefined;
         }
 
-        const importedName: string = importPath.substring(importPath.lastIndexOf("/") + 1);
         importPath = importPath.substring(0, importPath.lastIndexOf("/"));
 
         return importPath.replace(/\//g, ".");
-    }
-
-    /**
-     * Initializes a new instance of the SourceFilePrinter class.
-     * 
-     * @param sourceFile   The source file to be printed.
-     * @param rootNamespace   Root namespace to ignore from module paths.
-     * @returns A promise for a new instance of the SourceFilePrinter class.
-     */
-    public static async fromSourceFile(sourceFile: SourceFile, rootNamespace: string): Promise<SourceFilePrinter> {
-        return new SourceFilePrinter(
-            sourceFile,
-            rootNamespace,
-            (await fs.readFile(sourceFile.fullPath)).toString());
     }
 }

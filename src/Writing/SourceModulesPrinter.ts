@@ -1,6 +1,5 @@
 import { SourceModule } from "../Reading/SourceModule";
 import { SourceFilesPrinter } from "./SourceFilesPrinter";
-import { SourceModuleFactory } from "../Reading/SourceModuleFactory";
 import { ITypespaceSettings } from "../Typespace";
 import { DependencyOrderer } from "./DependencyOrderer";
 
@@ -45,13 +44,12 @@ export class SourceModulesPrinter {
 
         for (const sourceModule of orderedSourceModules) {
             const contents: string = await this.getSourceModuleContents(sourceModule);
-            const indentation: string = sourceModule.namespacePath.map((_: string): string => "    ").join("");
             let namespacePath: string = sourceModule.namespacePath
                 .join(".")
                 .substring(this.settings.root.length);
 
             output += [
-                `namespace ${this.settings.namespace}${namespacePath} {`,
+                `namespace ${this.settings.rootNamespace}${namespacePath} {`,
                 `    ${contents.trim()}`.replace(/\n/g, "\n    "),
                 "}\n\n"
             ].join("\n");

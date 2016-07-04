@@ -1,13 +1,10 @@
 {
   "name": "typespace",
-  "version": "0.0.3",
-  "author": {
-    "name": "Josh Goldberg",
-    "email": "joshuakgoldberg@outlook.com"
-  },
+  "version": "0.0.4",
+  "author": "Josh Goldberg <joshuakgoldberg@outlook.com>",
   "repository": {
     "type": "git",
-    "url": "ssh://git@github.com:JoshuaKGoldberg/Typespace.git"
+    "url": "ssh://git@github.com/JoshuaKGoldberg/Typespace.git"
   },
   "bugs": {
     "url": "https://github.com/JoshuaKGoldberg/Typespace/issues"
@@ -16,5 +13,35 @@
   "main": "bin\typespace",
   "scripts": {},
   "license": "MIT",
-  "dependencies": {}
+  "dependencies": {},
+  "homepage": "https://github.com/JoshuaKGoldberg/Typespace#readme",
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {
+    "babel-preset-es2015": "^6.9.0",
+    "chai": "^3.5.0",
+    "codecov": "^1.0.1",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-istanbul": "^1.0.0",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-tslint": "^5.0.0",
+    "gulp-typescript": "^2.13.6",
+    "isparta": "^4.0.0",
+    "istanbul": "^0.4.4",
+    "merge2": "^1.0.2",
+    "mocha": "^2.5.3",
+    "run-sequence": "^1.2.2",
+    "sinon": "^1.17.4",
+    "tslint": "^3.13.0",
+    "typescript": "^1.8.10"
+  },
+  "keywords": [
+    "typescript",
+    "namespace",
+    "import",
+    "require",
+    "export"
+  ]
 }

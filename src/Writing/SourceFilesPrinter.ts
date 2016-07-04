@@ -1,5 +1,4 @@
 import { SourceFile } from "../Reading/SourceFile";
-import { DependencyOrderer } from "./DependencyOrderer";
 import { SourceFilePrinter } from "./SourceFilePrinter";
 
 /**
@@ -54,7 +53,7 @@ export class SourceFilesPrinter {
         let allImports: string[] = [];
 
         for (const sourceFile of this.orderedSourceFiles) {
-            const sourceFilePrinter = await SourceFilePrinter.fromSourceFile(sourceFile, this.rootNamespace);
+            const sourceFilePrinter: SourceFilePrinter = await SourceFilePrinter.fromSourceFile(sourceFile, this.rootNamespace);
             allBodies.push(sourceFilePrinter.getBody());
             allImports.push(
                 ...sourceFilePrinter.getImports()

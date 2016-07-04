@@ -18,7 +18,7 @@ export class SourceFileFactory {
      */
     public createFromPath(fullPath: string): SourceFile {
         const fileText: string = fs.readFileSync(fullPath).toString();
-        const sourceFile: ts.SourceFile = ts.createSourceFile(fullPath, fileText, ts.ScriptTarget.ES2015);
+        const sourceFile: ts.SourceFile = ts.createSourceFile(fullPath, fileText, ts.ScriptTarget.ES6);
 
         return new SourceFile(fullPath, sourceFile.getChildren()[0].getChildren());
     }

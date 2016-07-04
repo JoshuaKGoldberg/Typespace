@@ -9,8 +9,8 @@ var Typespace = require("../src/Typespace").Typespace;
 commander
     .description(package.description)
     .version(package.version)
-    .usage("-n MyProject -p tsconfig.json [-o output.ts] [-r root]")
-    .option("-n --namespace [string]", "name of the output root namespace")
+    .usage("-rn MyProject -p tsconfig.json [-o output.ts] [-r root]")
+    .option("-rn --rootNamespace [string]", "name of the output root namespace")
     .option("-o --out [path]", "output .ts file path")
     .option("-p --project [path]", "input tsconfig.json file path")
     .option("-r --root [string]", "root namespace to ignore from module paths")

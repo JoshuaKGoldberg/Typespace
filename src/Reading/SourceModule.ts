@@ -1,7 +1,5 @@
 /// <reference path="../../node_modules/typescript/lib/typescript.d.ts" />
 
-import * as path from "path";
-import * as ts from "typescript";
 import { SourceFile } from "./SourceFile";
 
 /**
@@ -59,7 +57,7 @@ export class SourceModule {
      * @returns Collected module dependencies from the source files.
      */
     private getModuleDependencies(sourceFiles: SourceFile[]): string[] {
-        const moduleDependencies = new Set<string>();
+        const moduleDependencies: Set<string> = new Set<string>();
 
         for (const sourceFile of sourceFiles) {
             for (const moduleDependency of sourceFile.moduleDependencies) {

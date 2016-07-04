@@ -22,14 +22,14 @@ interface ISourceModules {
  */
 export class SourceModuleFactory {
     /**
-     * Full root path to generated modules.
-     */
-    private rootPath: string;
-
-    /**
      * Generated source modules.
      */
     public /* readonly */ sourceModules: ISourceModules = {};
+
+    /**
+     * Full root path to generated modules.
+     */
+    private rootPath: string;
 
     /**
      * Generated source files.
@@ -79,20 +79,8 @@ export class SourceModuleFactory {
         }
 
         for (const folderPath in folderFiles) {
-            const addedModule = new SourceModule(folderPath, folderFiles[folderPath]);
+            const addedModule: SourceModule = new SourceModule(folderPath, folderFiles[folderPath]);
             this.sourceModules[folderPath] = addedModule;
         }
-    }
-
-    /**
-     * Determines the path to a folder's parent.
-     * 
-     * @param folderPath   A folder path.
-     * @returns The parent folder path, if it exists.
-     */
-    private getFolderPathParent(folderPath: string): string {
-        const parentPath: string = folderPath.substring(0, folderPath.lastIndexOf("/"));
-
-        return parentPath.length <= this.rootPath.length ? undefined : parentPath;
     }
 }

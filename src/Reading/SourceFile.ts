@@ -1,7 +1,6 @@
 /// <reference path="../../node_modules/typescript/lib/typescript.d.ts" />
 /// <reference path="../../typings/fs-extra/index.d.ts" />
 
-import * as fs from "fs-promise";
 import * as ts from "typescript";
 
 /**
@@ -55,7 +54,7 @@ export class SourceFile {
         this.fileName = fullPath.substring(fullPath.lastIndexOf("/"));
 
         for (const node of nodes) {
-            if (node.kind == ts.SyntaxKind.ImportDeclaration) {
+            if (node.kind === ts.SyntaxKind.ImportDeclaration) {
                 this.imports.push(node as ts.ImportDeclaration);
             } else {
                 this.nodes.push(node);
