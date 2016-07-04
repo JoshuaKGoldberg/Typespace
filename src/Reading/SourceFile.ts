@@ -4,6 +4,13 @@
 import * as ts from "typescript";
 
 /**
+ * Source files, keyed by full path.
+ */
+export interface ISourceFiles {
+    [i: string]: SourceFile;
+}
+
+/**
  * Stores child nodes of a source file.
  */
 export class SourceFile {

@@ -55,7 +55,7 @@ gulp.task("tsc", () => {
         .pipe(ts(project));
 
     return merge([
-        output.dts.pipe(gulp.dest("src")),
+        output.dts.pipe(gulp.dest("lib")),
         output.js
             .pipe(sourcemaps.write())
             .pipe(gulp.dest("src"))

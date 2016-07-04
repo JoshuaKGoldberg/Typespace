@@ -1,12 +1,12 @@
 /// <reference path="../../node_modules/typescript/lib/typescript.d.ts" />
 
-import { SourceFile } from "./SourceFile";
+import { ISourceFiles, SourceFile } from "./SourceFile";
 
 /**
- * Source files, keyed by full path.
+ * Source modules, keyed by folder path.
  */
-interface ISourceFiles {
-    [i: string]: SourceFile;
+export interface ISourceModules {
+    [i: string]: SourceModule;
 }
 
 /**

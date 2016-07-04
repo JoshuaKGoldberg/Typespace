@@ -1,21 +1,7 @@
 import * as path from "path";
-import { SourceFile } from "./SourceFile";
+import { ISourceFiles, SourceFile } from "./SourceFile";
 import { SourceFileFactory } from "./SourceFileFactory";
-import { SourceModule } from "./SourceModule";
-
-/**
- * Source files, keyed by full path.
- */
-interface ISourceFiles {
-    [i: string]: SourceFile;
-}
-
-/**
- * Source modules, keyed by folder path.
- */
-interface ISourceModules {
-    [i: string]: SourceModule;
-}
+import { ISourceModules, SourceModule } from "./SourceModule";
 
 /**
  * Creates a collection of source modules from a list of file paths.

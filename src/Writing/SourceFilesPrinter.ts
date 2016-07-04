@@ -1,12 +1,5 @@
-import { SourceFile } from "../Reading/SourceFile";
+import { ISourceFiles, SourceFile } from "../Reading/SourceFile";
 import { SourceFilePrinter } from "./SourceFilePrinter";
-
-/**
- * Source files, keyed by full path.
- */
-interface ISourceFiles {
-    [i: string]: SourceFile;
-}
 
 /**
  * Prints source files as namespace output.

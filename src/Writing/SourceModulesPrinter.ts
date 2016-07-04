@@ -1,14 +1,7 @@
-import { SourceModule } from "../Reading/SourceModule";
+import { ISourceModules, SourceModule } from "../Reading/SourceModule";
 import { SourceFilesPrinter } from "./SourceFilesPrinter";
 import { ITypespaceSettings } from "../Typespace";
 import { DependencyOrderer } from "./DependencyOrderer";
-
-/**
- * Source modules, keyed by folder path.
- */
-interface ISourceModules {
-    [i: string]: SourceModule;
-}
 
 /**
  * Prints a set of modules as namespace output.
