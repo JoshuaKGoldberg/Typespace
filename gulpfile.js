@@ -79,5 +79,5 @@ gulp.task("watch", ["default"], () => {
 });
 
 gulp.task("default", ["tsc", "lint"], callback => {
-    runSequence(["babel", "test"], callback);
+    runSequence("babel", "test", callback);
 });
