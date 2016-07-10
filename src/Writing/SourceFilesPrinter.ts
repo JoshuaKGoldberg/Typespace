@@ -1,3 +1,4 @@
+import { ITypespaceSettings } from "../Typespace";
 import { ISourceFiles, SourceFile } from "../Reading/SourceFile";
 import { SourceFilePrinter } from "./SourceFilePrinter";
 
@@ -16,9 +17,9 @@ export class SourceFilesPrinter {
     private orderedSourceFiles: SourceFile[];
 
     /**
-     * Root namespace to ignore from module paths.
+     * Settings to run Typespace.
      */
-    private rootNamespace: string;
+    private settings: ITypespaceSettings;
 
     /**
      * Initializes a new instance of the SourceFilesPrinter class.
@@ -26,9 +27,9 @@ export class SourceFilesPrinter {
      * @param sourceFiles   Source files, keyed by full path.
      * @param rootNamespace   Root namespace to ignore from module paths.
      */
-    constructor(sourceFiles: ISourceFiles, rootNamespace: string) {
+    constructor(sourceFiles: ISourceFiles, settings: ITypespaceSettings) {
         this.sourceFiles = sourceFiles;
-        this.rootNamespace = rootNamespace;
+        this.settings = settings;
 
         // const dependencyOrderer: DependencyOrderer<SourceFile> = new DependencyOrderer(
         //     this.sourceFiles,
@@ -46,14 +47,14 @@ export class SourceFilesPrinter {
         let allImports: string[] = [];
 
         for (const sourceFile of this.orderedSourceFiles) {
-            const sourceFilePrinter: SourceFilePrinter = await SourceFilePrinter.fromSourceFile(sourceFile, this.rootNamespace);
+            const sourceFilePrinter: SourceFilePrinter = await SourceFilePrinter.fromSourceFile(sourceFile, this.settings);
             allBodies.push(sourceFilePrinter.getBody());
             allImports.push(
                 ...sourceFilePrinter.getImports()
                 .filter((text: string): boolean => !!text));
         }
 
-        allImports = Array.from(new Set<string>(allImports));
+        allImports = Array.from(new Set<string>(allImports)).sort();
 
         return `${allImports.join("\n")}\n\n${allBodies.join("\n\n")}`;
     }

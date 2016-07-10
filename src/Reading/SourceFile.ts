@@ -11,6 +11,13 @@ export interface ISourceFiles {
 }
 
 /**
+ * Full paths of module dependencies, keyed to their imports.
+ */
+export interface IModuleDependencies {
+    [i: string]: Set<string>;
+}
+
+/**
  * Stores child nodes of a source file.
  */
 export class SourceFile {
@@ -23,11 +30,6 @@ export class SourceFile {
      * Full (relative) path to the folder containing this file, such as "a/b".
      */
     public /* readonly */ folderPath: string;
-
-    /**
-     * Name of this file, such as "c.ts".
-     */
-    public /* readonly */ fileName: string;
 
     /**
      * Top-level import statements.
@@ -47,7 +49,7 @@ export class SourceFile {
     /**
      * Paths of modules this file imports from.
      */
-    public /* readonly */ moduleDependencies: string[];
+    public /* readonly */ moduleDependencies: IModuleDependencies;
 
     /**
      * Initializes a new instance of the SourceNodes class.
@@ -58,10 +60,10 @@ export class SourceFile {
     public constructor(fullPath: string, nodes: ts.Node[]) {
         this.fullPath = fullPath;
         this.folderPath = fullPath.substring(0, fullPath.lastIndexOf("/"));
-        this.fileName = fullPath.substring(fullPath.lastIndexOf("/"));
 
         for (const node of nodes) {
-            if (node.kind === ts.SyntaxKind.ImportDeclaration) {
+            // Todo: figure out why this works
+            if (node.kind === ts.SyntaxKind.ExportAssignment || node.kind === ts.SyntaxKind.ImportDeclaration) {
                 this.imports.push(node as ts.ImportDeclaration);
             } else {
                 this.nodes.push(node);
@@ -100,32 +102,49 @@ export class SourceFile {
      * @param imports   A file's import declarations.
      * @returns Unique module dependencies of the file.
      */
-    private getModuleDependencies(imports: ts.ImportDeclaration[]): string[] {
-        const allModuleDependencies: string[] = imports
-            // Convert each import to its text, such as "./a/b/c" or "fs"
-            .map((importNode: ts.ImportDeclaration): string => {
-                return (importNode.moduleSpecifier as any).text;
-            })
-            // Only look at local dependencies, such as "./a/b/c"
-            .filter((fileDependency: string): boolean => {
-                return fileDependency.startsWith(".");
-            })
+    private getModuleDependencies(imports: ts.ImportDeclaration[]): IModuleDependencies {
+        const moduleDependencies: IModuleDependencies = {};
+
+        for (const importNode of imports) {
+            // Convert each import to its text, such as "./b/c/x" or "../y" or "fs"
+            const localPath: string = (importNode.moduleSpecifier as any).text;
+
+            // Only look at local dependencies, such as "./b/c/x" or "../y"
+            if (localPath[0] !== ".") {
+                continue;
+            }
+
             // Remove the preceding "./" or "../" and ending file name, for "a/b"
-            .map((fileDependency: string): string => {
-                if (fileDependency.startsWith("./")) {
-                    fileDependency = fileDependency.substring(2);
-                }
+            const relativePath: string = localPath.substring(
+                localPath.startsWith("./") ? "./".length : 0,
+                localPath.lastIndexOf("/"));
 
-                return fileDependency.substring(0, fileDependency.lastIndexOf("/"));
-            })
             // Ignore files in the local folder
-            .filter((fileDependency: string): boolean => {
-                return fileDependency.length > 1;
-            })
-            // Convert "../../../"-style paths to their absolute equivalents
-            .map((fileDependency: string): string => this.makePathAbsolute(fileDependency));
+            if (relativePath.length <= 1) {
+                continue;
+            }
 
-        return Array.from(new Set<string>(allModuleDependencies));
+            // Convert "../../../"-style paths to their absolute equivalents
+            const absolutePath: string = this.makePathAbsolute(relativePath);
+
+            // Retrieve
+
+            const importedItems: string[] = (importNode.importClause.namedBindings as any).elements
+                .map((element: any): string => {
+                    return element.name.text;
+                });
+
+            // Add new, unique imports to the module's dependencies
+            if (moduleDependencies[absolutePath]) {
+                for (const importedItem of importedItems) {
+                    moduleDependencies[absolutePath].add(importedItem);
+                }
+            } else {
+                moduleDependencies[absolutePath] = new Set<string>(importedItems);
+            }
+        }
+
+        return moduleDependencies;
     }
 
     /**

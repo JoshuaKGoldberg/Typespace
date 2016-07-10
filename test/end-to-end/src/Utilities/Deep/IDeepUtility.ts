@@ -5,7 +5,7 @@ import { IAnotherUtility } from "../IUtility";
  */
 export interface IDeepUtility {
     /**
-     * @returns A sample value.
+     * @returns Another sample utility.
      */
-    getDeepValue(): number;
+    getDeepValue(): IAnotherUtility;
 }

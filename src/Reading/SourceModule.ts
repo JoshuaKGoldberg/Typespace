@@ -60,7 +60,7 @@ export class SourceModule {
         const moduleDependencies: Set<string> = new Set<string>();
 
         for (const sourceFile of sourceFiles) {
-            for (const moduleDependency of sourceFile.moduleDependencies) {
+            for (const moduleDependency in sourceFile.moduleDependencies) {
                 moduleDependencies.add(moduleDependency);
             }
         }

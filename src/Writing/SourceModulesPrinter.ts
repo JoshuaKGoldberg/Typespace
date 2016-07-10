@@ -73,6 +73,6 @@ export class SourceModulesPrinter {
      * @returns A promise for the printed contents.
      */
     private async getSourceModuleContents(sourceModule: SourceModule): Promise<string> {
-        return await new SourceFilesPrinter(sourceModule.sourceFiles, this.settings.namespace).print();
+        return await new SourceFilesPrinter(sourceModule.sourceFiles, this.settings).print();
     }
 }

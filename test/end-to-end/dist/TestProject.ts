@@ -1,7 +1,57 @@
+namespace TestProject.Utilities.Deep {
+    import IAnotherUtility = Utilities.IAnotherUtility;
+
+    /**
+     * A sample deep utility interface.
+     */
+    export interface IDeepUtility {
+        /**
+         * @returns Another sample utility.
+         */
+        getDeepValue(): IAnotherUtility;
+    }
+}
+
+namespace TestProject.Utilities {
+    import IDeepUtility = Deep.IDeepUtility;
+
+    /**
+     * A sample utility interface.
+     */
+    export interface IUtility {
+        /**
+         * @returns A sample value.
+         */
+        getValue(): boolean;
+    }
+
+    /**
+     * Another sample utility interface.
+     */
+    export interface IAnotherUtility {
+        /**
+         * @returns Another value.
+         */
+        getValue(): number;
+    }
+
+    /**
+     * A sample utility.
+     */
+    export class Utility implements IUtility {
+        /**
+         * @returns A sample value.
+         */
+        getValue(): boolean {
+            return true;
+        }
+    }
+}
+
 namespace TestProject {
-    import IUtility = TestProject.Utilities.IUtility;
-    import IAnotherUtility = TestProject.Utilities.IAnotherUtility;
-    import IDeepUtility = TestProject.Utilities.Deep.IDeepUtility;
+    import IAnotherUtility = Utilities.IAnotherUtility;
+    import IDeepUtility = Utilities.Deep.IDeepUtility;
+    import IUtility = Utilities.IUtility;
 
     /**
      * A sample interface.
@@ -38,55 +88,5 @@ namespace TestProject {
         public getUtility(): IUtility {
             return this.utility;
         }
-    }
-}
-
-namespace TestProject.Utilities {
-    import IDeepUtility = TestProject.Utilities.Deep.IDeepUtility;
-
-    /**
-     * A sample utility interface.
-     */
-    export interface IUtility {
-        /**
-         * @returns A sample value.
-         */
-        getValue(): boolean;
-    }
-
-    /**
-     * Another sample utility interface.
-     */
-    export interface IAnotherUtility {
-        /**
-         * @returns Another value.
-         */
-        getValue(): number;
-    }
-
-    /**
-     * A sample utility.
-     */
-    export class Utility implements IUtility {
-        /**
-         * @returns A sample value.
-         */
-        getValue(): boolean {
-            return true;
-        }
-    }
-}
-
-namespace TestProject.Utilities.Deep {
-    import IAnotherUtility = TestProject.Utilities.IAnotherUtility;
-
-    /**
-     * A sample deep utility interface.
-     */
-    export interface IDeepUtility {
-        /**
-         * @returns A sample value.
-         */
-        getDeepValue(): number;
     }
 }
