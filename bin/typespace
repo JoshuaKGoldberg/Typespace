@@ -9,12 +9,12 @@ var Typespace = require("../lib/Typespace").Typespace;
 commander
     .description(package.description)
     .version(package.version)
-    .usage("[-d directory] [-f file.ts, ...] [-o output.ts] [-p tsconfig.json] [-r MyProject]")
+    .usage("-n MyProject [-c tsconfig.json] [-f File.ts, ...] [-o output.ts] [-r path/to/files]")
     .option("-c --config [path]", "input tsconfig.json file path to load files from (optional)")
-    .option("-d --directory [string]", "directory root to ignore from module paths")
     .option("-f --files [paths]", "paths of files to include (optional)")
-    .option("-r --root [string]", "name of the output root namespace")
+    .option("-n --namespace [string]", "name of the root namespace")
     .option("-o --outFile [path]", "output .ts file path (optional)")
+    .option("-r --root [string]", "root path to search for files under")
     .parse(process.argv);
 
 new Typespace(commander).convert()

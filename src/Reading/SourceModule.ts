@@ -36,11 +36,11 @@ export class SourceModule {
     /**
      * Initializes a new instance of the SourceModule class.
      * 
-     * @param path    Full (relative) path to the module, such as "a/b".
+     * @param modulePath    Full (relative) path to the module, such as "a/b".
      * @param sourceFiles   Source files within the module.
      */
-    public constructor(path: string, sourceFiles: SourceFile[]) {
-        this.modulePath = path;
+    public constructor(modulePath: string, sourceFiles: SourceFile[]) {
+        this.modulePath = modulePath;
         this.namespacePath = this.modulePath.split("/");
 
         for (const sourceFile of sourceFiles) {

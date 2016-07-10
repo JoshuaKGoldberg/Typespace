@@ -46,14 +46,15 @@ You can use Typespace via `require`/`import` or on the command-line. There's als
 
 Required arguments/flags:
 
-* `directory` (`-d`/`--directory`) - directory root to ignore from module paths
-* `root` (`-r`/`--root`) - name of the output root namespace
+* `namespace` (`-n/`--namespace`) - name of the root namespace
 
 Optional arguments/flags:
 
 * `config` (`-c`/`--config`) - input tsconfig.json file path to load files from
 * `files` (`-f`/`--files`) - paths of files to include
 * `outFile` (`-o`/`--outFile`) - output .ts file path
+* `pathPrefix` (`-p`/`--pathPrefix`) - directory root to ignore from module paths
+* `root` (`-r`/`--root`) - root path to search for files under
 
 
 ### CLI
@@ -117,4 +118,4 @@ Babel is used for Node compatibility.
 ### Tests
 
 Tests files are in JavaScript and run with Mocha.
-Test coverage is computed with Istanbul.
+Test coverage for unit tests is computed with Istanbul.

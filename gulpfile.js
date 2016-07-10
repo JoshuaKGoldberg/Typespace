@@ -28,7 +28,7 @@ gulp.task("eslint", () => {
 
 gulp.task("lint", ["tslint", "eslint"]);
 
-gulp.task("pre-test", function () {
+gulp.task("test:unit:pre", () => {
     return gulp.src(["lib/**/*.js"])
         .pipe(istanbul({
             instrumenter: isparta.Instrumenter,
@@ -37,10 +37,19 @@ gulp.task("pre-test", function () {
         .pipe(istanbul.hookRequire());
 });
 
-gulp.task("test", ["pre-test"], function () {
+gulp.task("test:unit", ["test:unit:pre"], () => {
     return gulp.src(["test/unit/**/*.js"])
         .pipe(mocha())
         .pipe(istanbul.writeReports());
+});
+
+gulp.task("test:end-to-end", () => {
+    return gulp.src(["test/end-to-end/tests.js"])
+        .pipe(mocha());
+});
+
+gulp.task("test", ["test:unit"], callback => {
+    runSequence(["test:end-to-end"], callback);
 });
 
 gulp.task("tslint", () => {

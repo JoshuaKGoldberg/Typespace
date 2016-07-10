@@ -15,19 +15,24 @@ export interface ITypespaceSettings {
     config?: string;
 
     /**
-     * Directory root to ignore from module paths.
-     */
-    directory: string;
-
-    /**
      * Paths of files to include.
      */
     files?: string[];
 
     /**
-     * Name of the output root namespace.
+     * Directory root to ignore from module paths.
      */
-    root: string;
+    pathPrefix?: string;
+
+    /**
+     * Name of the root namespace.
+     */
+    namespace: string;
+
+    /**
+     * Root path to search for files under.
+     */
+    root?: string;
 }
 
 /**
@@ -62,7 +67,7 @@ export class Typespace {
      */
     public async convert(): Promise<string> {
         const rootPath: string = this.getRootPath(this.settings);
-        const sourceModuleFactory: SourceModuleFactory = new SourceModuleFactory(rootPath, this.files);
+        const sourceModuleFactory: SourceModuleFactory = new SourceModuleFactory(rootPath, this.files, this.settings);
         const sourceModulesPrinter: SourceModulesPrinter = new SourceModulesPrinter(sourceModuleFactory.sourceModules, this.settings);
 
         return await sourceModulesPrinter.print();

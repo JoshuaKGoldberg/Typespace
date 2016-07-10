@@ -1,6 +1,6 @@
 import { ISourceModules, SourceModule } from "../Reading/SourceModule";
-import { SourceFilesPrinter } from "./SourceFilesPrinter";
 import { ITypespaceSettings } from "../Typespace";
+import { SourceFilesPrinter } from "./SourceFilesPrinter";
 import { DependencyOrderer } from "./DependencyOrderer";
 
 /**
@@ -36,13 +36,11 @@ export class SourceModulesPrinter {
         let output: string = "";
 
         for (const sourceModule of orderedSourceModules) {
+            const namespacePath: string = this.settings.namespace + sourceModule.namespacePath.join(".");
             const contents: string = await this.getSourceModuleContents(sourceModule);
-            let namespacePath: string = sourceModule.namespacePath
-                .join(".")
-                .substring(this.settings.root.length);
 
             output += [
-                `namespace ${this.settings.root}${namespacePath} {`,
+                `namespace ${namespacePath} {`,
                 `    ${contents.trim()}`.replace(/\n/g, "\n    "),
                 "}\n\n"
             ].join("\n");
@@ -75,6 +73,6 @@ export class SourceModulesPrinter {
      * @returns A promise for the printed contents.
      */
     private async getSourceModuleContents(sourceModule: SourceModule): Promise<string> {
-        return await new SourceFilesPrinter(sourceModule.sourceFiles, this.settings.root).print();
+        return await new SourceFilesPrinter(sourceModule.sourceFiles, this.settings.namespace).print();
     }
 }
