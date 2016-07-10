@@ -42,7 +42,7 @@ export class SourceModulesPrinter {
                 .substring(this.settings.root.length);
 
             output += [
-                `namespace ${this.settings.rootNamespace}${namespacePath} {`,
+                `namespace ${this.settings.root}${namespacePath} {`,
                 `    ${contents.trim()}`.replace(/\n/g, "\n    "),
                 "}\n\n"
             ].join("\n");

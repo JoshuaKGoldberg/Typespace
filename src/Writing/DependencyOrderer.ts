@@ -3,7 +3,7 @@
  * 
  * @type TClass   The type of class.
  */
-interface IClassInstances<TClass> {
+export interface IClassInstances<TClass> {
     [i: string]: TClass;
 }
 
@@ -13,7 +13,7 @@ interface IClassInstances<TClass> {
  * @type TClass   The type of class.
  * @returns The class instance's dependencies.
  */
-interface IGetDependencies<TClass> {
+export interface IGetDependencies<TClass> {
     (instance: TClass): string[];
 }
 

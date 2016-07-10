@@ -13,6 +13,7 @@ const tslint = require("gulp-tslint");
 gulp.task("babel", () => {
     return gulp.src("src/**/*.js")
         .pipe(babel({
+            plugins: ["transform-runtime"],
             presets: ["es2015"]
         }))
         .pipe(gulp.dest("lib"));
@@ -24,6 +25,8 @@ gulp.task("eslint", () => {
         .pipe(eslint.format())
         .pipe(eslint.failAfterError());
 });
+
+gulp.task("lint", ["tslint", "eslint"]);
 
 gulp.task("pre-test", function () {
     return gulp.src(["lib/**/*.js"])
@@ -66,6 +69,6 @@ gulp.task("watch", ["default"], () => {
     gulp.watch(["src/**/*.ts", "test/**/*.js"], ["default"]);
 });
 
-gulp.task("default", ["tsc", "tslint", "eslint"], callback => {
+gulp.task("default", ["tsc", "lint"], callback => {
     runSequence(["babel", "test"], callback);
 });

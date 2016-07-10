@@ -10,17 +10,22 @@ import { SourceModulesPrinter } from "./Writing/SourceModulesPrinter";
  */
 export interface ITypespaceSettings {
     /**
+     * Input tsconfig.json file path.
+     */
+    config?: string;
+
+    /**
+     * Directory root to ignore from module paths.
+     */
+    directory: string;
+
+    /**
+     * Paths of files to include.
+     */
+    files?: string[];
+
+    /**
      * Name of the output root namespace.
-     */
-    rootNamespace: string;
-
-    /**
-     * Input tsconfig.json path.
-     */
-    project: string;
-
-    /**
-     * Root namespace to ignore from module paths.
      */
     root: string;
 }
@@ -36,23 +41,18 @@ export class Typespace {
     private settings: ITypespaceSettings;
 
     /**
+     * Paths to files to include.
+     */
+    private files: string[];
+
+    /**
      * Initializes a new instance of the Typespace class.
      * 
      * @param settings   Settings to run.
      */
     constructor(settings: ITypespaceSettings) {
-        if (!settings.rootNamespace) {
-            throw new Error("You need to specify a -rn/--rootNamespace string.");
-        }
-
-        if (!settings.project) {
-            throw new Error("You need to specify a -p/--project path.");
-        }
-        if (!fs.existsSync(settings.project)) {
-            throw new Error(`'${settings.project}' does not exist.`);
-        }
-
         this.settings = settings;
+        this.files = this.collectFiles(settings);
     }
 
     /**
@@ -61,16 +61,68 @@ export class Typespace {
      * @returns A promise for the combined output.
      */
     public async convert(): Promise<string> {
-        const config: any = JSON.parse(fs.readFileSync(this.settings.project).toString());
-
-        if (!config.files || !(config.files instanceof Array)) {
-            throw new Error(`'${this.settings.project}' does not define an array of files.`);
-        }
-
-        const rootPath: string = path.dirname(this.settings.project);
-        const sourceModuleFactory: SourceModuleFactory = new SourceModuleFactory(rootPath, config.files);
+        const rootPath: string = this.getRootPath(this.settings);
+        const sourceModuleFactory: SourceModuleFactory = new SourceModuleFactory(rootPath, this.files);
         const sourceModulesPrinter: SourceModulesPrinter = new SourceModulesPrinter(sourceModuleFactory.sourceModules, this.settings);
 
         return await sourceModulesPrinter.print();
+    }
+
+    /**
+     * Collects paths of files to include from settings.
+     * 
+     * @param settings   Settings to run Typespace.
+     * @returns Paths of files to include.
+     */
+    private collectFiles(settings: ITypespaceSettings): string[] {
+        const files: string[] = [];
+
+        if (settings.files) {
+            files.push(...settings.files);
+        }
+
+        if (settings.config) {
+            files.push(...this.collectProjectFiles(settings.config));
+        }
+
+        return files;
+    }
+
+    /**
+     * Collects paths of files to include from a tsconfig.json.
+     * 
+     * @param config   Path to a tsconfig.json.
+     * @returns Paths of files to include.
+     */
+    private collectProjectFiles(config: string): string[] {
+        if (!fs.existsSync(config)) {
+            throw new Error(`'${config}' does not exist.`);
+        }
+
+        const project: any = JSON.parse(fs.readFileSync(config).toString());
+
+        if (!project.files || !(project.files instanceof Array)) {
+            throw new Error(`'${config}' does not define an array of files.`);
+        }
+
+        return project.files;
+    }
+
+    /**
+     * Determines the name of the output root namespace.
+     * 
+     * @param settings   Settings to run Typespace.
+     * @returns The name of the output root namespace.
+     */
+    private getRootPath(settings: ITypespaceSettings): string {
+        if (settings.root) {
+            return settings.root;
+        }
+
+        if (settings.config) {
+            return path.dirname(this.settings.config);
+        }
+
+        return ".";
     }
 }

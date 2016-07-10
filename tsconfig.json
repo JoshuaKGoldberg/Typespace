@@ -6,6 +6,7 @@
         "declaration": true
     },
     "files": [
+        "src/main.ts",
         "src/Typespace.ts",
         "src/Reading/SourceFile.ts",
         "src/Reading/SourceModule.ts",

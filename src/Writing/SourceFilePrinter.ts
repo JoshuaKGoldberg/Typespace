@@ -64,6 +64,10 @@ export class SourceFilePrinter {
      * @returns Unique imports from the source file.
      */
     public getImports(): string[] {
+        if (this.sourceFile.imports.length === 0) {
+            return [];
+        }
+
         return this.sourceFile.imports
             .map((node: ts.ImportDeclaration): string[] => this.convertImport(node))
             .reduce((a: string[], b: string[]) => {
