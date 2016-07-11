@@ -1,4 +1,4 @@
-namespace TestProject.Utilities.Deep {
+namespace Core.Utilities.Deep {
     import IAnotherUtility = Utilities.IAnotherUtility;
 
     /**
@@ -12,7 +12,7 @@ namespace TestProject.Utilities.Deep {
     }
 }
 
-namespace TestProject.Utilities {
+namespace Core.Utilities {
     import IDeepUtility = Deep.IDeepUtility;
 
     /**
@@ -48,7 +48,7 @@ namespace TestProject.Utilities {
     }
 }
 
-namespace TestProject {
+namespace Core {
     import IAnotherUtility = Utilities.IAnotherUtility;
     import IDeepUtility = Utilities.Deep.IDeepUtility;
     import IUtility = Utilities.IUtility;

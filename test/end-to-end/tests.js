@@ -1,8 +1,20 @@
 const expect = require("chai").expect;
 const fs = require("fs");
 const Typespace = require("../../lib/main");
-const tsConfig = JSON.parse(fs.readFileSync("./test/end-to-end/tsconfig.json").toString());
-const expected = fs.readFileSync("./test/end-to-end/dist/TestProject.ts").toString();
+
+function createConversion(name) {
+    const configPath = `./test/end-to-end/${name.toLowerCase()}/tsconfig.json`;
+
+    return {
+        config: JSON.parse(fs.readFileSync(configPath).toString()),
+        configPath: configPath,
+        expected: fs.readFileSync(`./test/end-to-end/${name.toLowerCase()}/dist/${name}.ts`).toString()
+    }
+}
+
+const conversions = {
+    core: createConversion("Core")
+};
 
 describe("CLI", () => {});
 
@@ -10,10 +22,10 @@ describe("Code", () => {
     it("runs with files", () => {
         // Arrange
         const settings = {
-            files: tsConfig.files,
-            namespace: "TestProject",
+            files: conversions.core.config.files,
+            namespace: "Core",
             pathPrefix: "src",
-            root: "test/end-to-end/"
+            root: "test/end-to-end/core/"
         };
         const converter = new Typespace(settings);
 
@@ -22,17 +34,17 @@ describe("Code", () => {
 
         // Assert
         return conversion.then(fileContents => {
-            expect(fileContents).to.be.equal(expected);
+            expect(fileContents).to.be.equal(conversions.core.expected);
         });
     });
 
     it("runs with a tsconfig.json", () => {
         // Arrange
         const settings = {
-            config: "./test/end-to-end/tsconfig.json",
-            namespace: "TestProject",
+            config: conversions.core.configPath,
+            namespace: "Core",
             pathPrefix: "src",
-            root: "test/end-to-end/"
+            root: "test/end-to-end/core/"
         };
         const converter = new Typespace(settings);
 
@@ -41,7 +53,7 @@ describe("Code", () => {
 
         // Assert
         return conversion.then(fileContents => {
-            expect(fileContents).to.be.equal(expected);
+            expect(fileContents).to.be.equal(conversions.core.expected);
         });
     });
 });
