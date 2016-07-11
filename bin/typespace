@@ -20,7 +20,7 @@ commander
 new Typespace(commander).convert()
     .then(contents => {
         if (commander.outFile) {
-            fs.writeFileSync(commander.out, contents);
+            fs.writeFileSync(commander.outFile, contents);
         }
     })
     .catch(error => console.error(error.stack));
