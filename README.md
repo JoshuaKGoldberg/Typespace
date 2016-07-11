@@ -103,9 +103,9 @@ gulp
 
 The primary Gulp tasks are:
 
-* `lint` - runs TSLint on source code and ESLint on tests
-* `test` - runs tests
+* `tslint` - lints source code with TSLint
 * `tsc` - compiles source code with TypeScript
+* `test` - runs tests
 * `watch` - runs Gulp whenever a source or test file changes
 
 

@@ -19,15 +19,6 @@ gulp.task("babel", () => {
         .pipe(gulp.dest("lib"));
 });
 
-gulp.task("eslint", () => {
-    return gulp.src(["*.js", "test/**/*.js"])
-        .pipe(eslint())
-        .pipe(eslint.format())
-        .pipe(eslint.failAfterError());
-});
-
-gulp.task("lint", ["tslint", "eslint"]);
-
 gulp.task("test:unit:pre", () => {
     return gulp.src(["lib/**/*.js"])
         .pipe(istanbul({
@@ -78,6 +69,6 @@ gulp.task("watch", ["default"], () => {
     gulp.watch(["src/**/*.ts", "test/**/*.js"], ["default"]);
 });
 
-gulp.task("default", ["tsc", "lint"], callback => {
+gulp.task("default", ["tsc", "tslint"], callback => {
     runSequence("babel", "test", callback);
 });

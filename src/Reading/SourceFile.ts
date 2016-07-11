@@ -127,8 +127,7 @@ export class SourceFile {
             // Convert "../../../"-style paths to their absolute equivalents
             const absolutePath: string = this.makePathAbsolute(relativePath);
 
-            // Retrieve
-
+            // Retrieve all the items imported from the file
             const importedItems: string[] = (importNode.importClause.namedBindings as any).elements
                 .map((element: any): string => {
                     return element.name.text;
