@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+        "module": "commonjs"
+    },
+    "files": [
+        "src/TestClass.ts",
+        "src/Utilities/IUtility.ts"
+    ]
+}

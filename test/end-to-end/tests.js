@@ -13,7 +13,8 @@ function createConversion(name) {
 }
 
 const conversions = {
-    core: createConversion("Core")
+    core: createConversion("Core"),
+    external: createConversion("External")
 };
 
 describe("CLI", () => {});
@@ -54,6 +55,25 @@ describe("Code", () => {
         // Assert
         return conversion.then(fileContents => {
             expect(fileContents).to.be.equal(conversions.core.expected);
+        });
+    });
+
+    it("converts external modules to namespaces", () => {
+        // Arrange
+        const settings = {
+            config: conversions.external.configPath,
+            namespace: "External",
+            pathPrefix: "src",
+            root: "test/end-to-end/external/"
+        };
+        const converter = new Typespace(settings);
+
+        // Act
+        const conversion = converter.convert();
+
+        // Assert
+        return conversion.then(fileContents => {
+            expect(fileContents).to.be.equal(conversions.external.expected);
         });
     });
 });
