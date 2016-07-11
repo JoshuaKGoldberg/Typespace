@@ -107,31 +107,14 @@ export class SourceFile {
 
         for (const importNode of imports) {
             // Convert each import to its text, such as "./b/c/x" or "../y" or "fs"
-            const localPath: string = (importNode.moduleSpecifier as any).text;
+            const importPath: string = (importNode.moduleSpecifier as any).text;
 
-            // Only look at local dependencies, such as "./b/c/x" or "../y"
-            if (localPath[0] !== ".") {
-                continue;
-            }
-
-            // Remove the preceding "./" or "../" and ending file name, for "a/b"
-            const relativePath: string = localPath.substring(
-                localPath.startsWith("./") ? "./".length : 0,
-                localPath.lastIndexOf("/"));
-
-            // Ignore files in the local folder
-            if (relativePath.length <= 1) {
-                continue;
-            }
+            const importedItems: string[] = importPath[0] === "."
+                ? this.getLocalImportedItems(importNode, importPath)
+                : this.getExternalImportedItems(importNode, importPath);
 
             // Convert "../../../"-style paths to their absolute equivalents
-            const absolutePath: string = this.makePathAbsolute(relativePath);
-
-            // Retrieve all the items imported from the file
-            const importedItems: string[] = (importNode.importClause.namedBindings as any).elements
-                .map((element: any): string => {
-                    return element.name.text;
-                });
+            const absolutePath: string = this.makePathAbsolute(importPath);
 
             // Add new, unique imports to the module's dependencies
             if (moduleDependencies[absolutePath]) {
@@ -147,21 +130,64 @@ export class SourceFile {
     }
 
     /**
+     * Retrives items from a local file import.
+     * 
+     * @param importNode   An import node for a local file.
+     * @param importPath   The path of the local flie.
+     * @returns Imported items from the import.
+     */
+    private getLocalImportedItems(importNode: ts.ImportDeclaration, importPath: string): string[] {
+        // Remove the preceding "./" or "../" and ending file name, for "a/b"
+        const relativePath: string = importPath.substring(
+            importPath.startsWith("./") ? "./".length : 0,
+            importPath.lastIndexOf("/"));
+
+        // Ignore files in the local folder
+        if (relativePath.length <= 1) {
+            return [];
+        }
+
+        return (importNode.importClause.namedBindings as any).elements
+            .map((element: any): string => element.name.text);
+    }
+
+    /**
+     * Retrives items from an external module import.
+     * 
+     * @param importNode   An import node for an external module.
+     * @param importPath   The path of the local flie.
+     * @returns Imported items from the import.
+     */
+    private getExternalImportedItems(importNode: ts.ImportDeclaration, importPath: string): string[] {
+        return (importNode.importClause.namedBindings as any).elements
+            .map((element: any): string => element.name.text);
+    }
+
+    /**
      * Converts a relative file path to its absolute equivalent.
      * 
-     * @param filePath   A relative file path from an import.
+     * @param localPath   A file path from an import.
      * @returns The file path's absolute equivalent.
      */
-    private makePathAbsolute(filePath: string): string {
-        if (filePath.indexOf("..") === -1) {
-            return this.folderPath + "/" + filePath;
+    private makePathAbsolute(localPath: string): string {
+        if (!localPath.startsWith(".")) {
+            return localPath;
+        }
+
+        // Remove the preceding "./" or "../" and ending file name, for "a/b"
+        let relativePath: string = localPath.substring(
+            localPath.startsWith("./") ? "./".length : 0,
+            localPath.lastIndexOf("/"));
+
+        if (relativePath.indexOf("..") === -1) {
+            return this.folderPath + "/" + relativePath;
         }
 
         let fullPath: string = this.folderPath.substring(0, this.folderPath.lastIndexOf("/"));
 
-        while (filePath.startsWith("../")) {
-            fullPath = fullPath.substring(0, filePath.lastIndexOf("/"));
-            filePath = filePath.substring("../".length);
+        while (relativePath.startsWith("../")) {
+            fullPath = fullPath.substring(0, relativePath.lastIndexOf("/"));
+            relativePath = relativePath.substring("../".length);
         }
 
         return fullPath;

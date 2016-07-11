@@ -71,8 +71,12 @@ export class DependencyOrderer<TClass> {
                 continue;
             }
 
-            const instance: TClass = this.instances[path];
             addedPaths.add(path);
+
+            const instance: TClass = this.instances[path];
+            if (!instance) {
+                continue;
+            }
 
             this.generateOrderedDependencies(addedPaths, this.getDependencies(instance), orderedInstances);
             orderedInstances.push(instance);
