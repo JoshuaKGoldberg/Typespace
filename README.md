@@ -46,7 +46,7 @@ You can use Typespace via `require`/`import` or on the command-line. There's als
 
 Required arguments/flags:
 
-* `namespace` (`-n/`--namespace`) - name of the root namespace
+* `namespace` (`-n`/`--namespace`) - name of the root namespace
 
 Optional arguments/flags:
 
