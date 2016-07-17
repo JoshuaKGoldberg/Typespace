@@ -43,7 +43,7 @@ export class Typespace {
     /**
      * Settings to run Typespace.
      */
-    private settings: ITypespaceSettings;
+    public /* readonly */ settings: ITypespaceSettings;
 
     /**
      * Paths to files to include.

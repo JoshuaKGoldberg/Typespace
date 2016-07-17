@@ -35,7 +35,7 @@ gulp.task("test:unit", ["test:unit:pre"], () => {
 });
 
 gulp.task("test:end-to-end", () => {
-    return gulp.src(["test/end-to-end/tests.js"])
+    return gulp.src(["test/end-to-end/test*.js"])
         .pipe(mocha());
 });
 
