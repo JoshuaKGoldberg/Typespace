@@ -79,7 +79,10 @@ export class SourceFilePrinter {
     }
 
     /**
+     * Converts a local module name into its relative equivalent.
      * 
+     * @param moduleName   An absolute module path.
+     * @returns The relative equivalent of the module name.
      */
     private parseModuleName(moduleName: string): string {
         const relativeModulePath: string[] = this.getPathComponents(moduleName);

@@ -1,5 +1,5 @@
-const ts = require("typescript");
 const expect = require("chai").expect;
+const ts = require("typescript");
 const SourceFile = require("../../../lib/Reading/SourceFile").SourceFile;
 const SourceModule = require("../../../lib/Reading/SourceModule").SourceModule;
 
