@@ -51,7 +51,6 @@ Required arguments/flags:
 Optional arguments/flags:
 
 * `config` (`-c`/`--config`) - input tsconfig.json file path to load files from
-* `files` (`-f`/`--files`) - paths of files to include
 * `outFile` (`-o`/`--outFile`) - output .ts file path
 * `pathPrefix` (`-p`/`--pathPrefix`) - directory root to ignore from module paths
 * `root` (`-r`/`--root`) - root path to search for files under
@@ -61,12 +60,7 @@ Optional arguments/flags:
 
 First install Typespace with `npm install typespace`.
 
-Specifying files manually:
-```cmd
-typespace --directory . --root src --outFile dist/combined.ts --files src/Foo.ts src/Bar.ts
-```
-
-Specifying files from a TypeScript config file:
+You can then specify files from a TypeScript config file:
 ```cmd
 typespace --directory . --root src --outFile dist/combined.ts --config tsconfig.json
 ```
@@ -77,10 +71,10 @@ typespace --directory . --root src --outFile dist/combined.ts --config tsconfig.
 const Typespace = require("typespace");
 
 const settings = {
+    config: "tsconfig.json",
     directory: ".",
     outFile: "dist/combined.ts",
-    root: "src",
-    files: ["src/Foo.ts", "src/Bar.ts"]
+    root: "src"
 };
 
 const converter = new Typespace(settings);

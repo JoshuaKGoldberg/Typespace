@@ -1,26 +1,15 @@
 #! /usr/bin/env node
 /// <reference path="../typings/node/index.d.ts" />
 
-var commander = require("commander");
 var fs = require("fs");
-var package = require("../package.json");
-var Typespace = require("../lib/Typespace").Typespace;
+var cli = require("../lib/cli").cli;
 
-commander
-    .description(package.description)
-    .version(package.version)
-    .usage("-n MyProject [-c tsconfig.json] [-f File.ts, ...] [-o output.ts] [-r path/to/files]")
-    .option("-c --config [path]", "input tsconfig.json file path to load files from (optional)")
-    .option("-f --files [paths]", "paths of files to include (optional)")
-    .option("-n --namespace [string]", "name of the root namespace")
-    .option("-o --outFile [path]", "output .ts file path (optional)")
-    .option("-r --root [string]", "root path to search for files under")
-    .parse(process.argv);
+function onCliSuccess(contents, outFile) {
+    fs.writeFileSync(outFile, contents);
+}
 
-new Typespace(commander).convert()
-    .then(contents => {
-        if (commander.outFile) {
-            fs.writeFileSync(commander.outFile, contents);
-        }
-    })
-    .catch(error => console.error(error.stack));
+function onCliError(error) {
+    console.error(error.stack);
+}
+
+cli(process.argv, onCliSuccess, onCliError);

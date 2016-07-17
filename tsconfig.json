@@ -6,6 +6,7 @@
         "declaration": true
     },
     "files": [
+        "src/cli.ts",
         "src/main.ts",
         "src/Typespace.ts",
         "src/Reading/SourceFile.ts",
