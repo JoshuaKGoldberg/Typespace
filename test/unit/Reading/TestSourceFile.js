@@ -5,7 +5,7 @@ const SourceFile = require("../../../lib/Reading/SourceFile").SourceFile;
 const mocks = {
     mockNodes: source => ts.createSourceFile("mock.ts", source, ts.ScriptTarget.ES2015, true).statements,
     mockSourceFile: (source, fileName) => new SourceFile(fileName || "mock.ts", mocks.mockNodes(source))
-}
+};
 
 describe("SourceFile", () => {
     describe("fileDependencies", () => {
