@@ -42,7 +42,7 @@ export class OutputTransformer {
             throw new Error(`Unknown script target: '${settings.target}'.`);
         }
 
-        return this.transformers.call(this, contents, settings);
+        return this.transformers[settings.target].call(this, contents, settings);
     }
 
     /**
@@ -52,10 +52,10 @@ export class OutputTransformer {
      * @param settings   Settings to run Typespace.
      * @returns The contents, transformed.
      */
-    private transformToCommonJs(contents: string, settings: ITypespaceSettings): string {
+    public transformToCommonJs(contents: string, settings: ITypespaceSettings): string {
         return contents
-            + "\n"
             + [
+                `\n`,
                 `if (typeof module !== "undefined" && typeof module.exports !== "undefined")`,
                 `   module.exports = ${settings.namespace};`,
                 `}`
