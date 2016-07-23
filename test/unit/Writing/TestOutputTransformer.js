@@ -52,7 +52,8 @@ describe("OutputTransformer", () => {
             // Assert
             expect(output).to.be.equal(contents + [
                 `\n`,
-                `if (typeof module !== "undefined" && typeof module.exports !== "undefined")`,
+                `declare var module: any;`,
+                `if (typeof module !== "undefined" && typeof module.exports !== "undefined") {`,
                 `   module.exports = ${settings.namespace};`,
                 `}`
             ].join("\n"));
