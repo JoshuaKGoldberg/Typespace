@@ -2,6 +2,7 @@ import { ISourceModules, SourceModule } from "../Reading/SourceModule";
 import { ITypespaceSettings } from "../Typespace";
 import { SourceFilesPrinter } from "./SourceFilesPrinter";
 import { DependencyOrderer } from "./DependencyOrderer";
+import { OutputTransformer } from "./OutputTransformer";
 
 /**
  * Prints a set of modules as namespace output.
@@ -33,24 +34,34 @@ export class SourceModulesPrinter {
      */
     public async print(): Promise<string> {
         const orderedSourceModules: SourceModule[] = this.orderSourceModules();
-        let output: string = "";
+        let contents: string = "";
 
         for (const sourceModule of orderedSourceModules) {
             const namespacePath: string = this.settings.namespace + sourceModule.namespacePath.join(".");
-            const contents: string = await this.getSourceModuleContents(sourceModule);
+            const moduleContents: string = await this.getSourceModuleContents(sourceModule);
 
-            output += [
+            contents += [
                 `namespace ${namespacePath} {`,
-                `    ${contents.trim()}`.replace(/\n/g, "\n    "),
+                `    ${moduleContents.trim()}`.replace(/\n/g, "\n    "),
                 "}\n\n"
             ].join("\n");
         }
 
-        return output
+        contents = contents
             .trim()
             .replace(/\r/g, "")
             .replace(/\n *\n/g, "\n\n")
             + "\n";
+
+        if (this.settings.references) {
+            contents = this.addOutputReferences(contents, this.settings.references);
+        }
+
+        if (this.settings.target) {
+            contents = this.addOutputTarget(contents, this.settings);
+        }
+
+        return contents;
     }
 
     /**
@@ -74,5 +85,27 @@ export class SourceModulesPrinter {
      */
     private async getSourceModuleContents(sourceModule: SourceModule): Promise<string> {
         return await new SourceFilesPrinter(sourceModule.sourceFiles, this.settings).print();
+    }
+
+    /**
+     * Prepends definition references to an output file's contents.
+     * 
+     * @param contents   An output file's contents.
+     * @param references   References to prepend to the file.
+     * @returns The output with references prepended.
+     */
+    private addOutputReferences(contents: string, references: string[]): string {
+        return references
+            .map(reference => `<reference path="${reference}" />`)
+            .join("\n")
+            + "\n\n"
+            + contents;
+    }
+
+    /**
+     * 
+     */
+    private addOutputTarget(contents: string, settings: ITypespaceSettings): string {
+        return new OutputTransformer().transform(contents, settings);
     }
 }
