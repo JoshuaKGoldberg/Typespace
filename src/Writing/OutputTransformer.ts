@@ -55,11 +55,12 @@ export class OutputTransformer {
     public transformToCommonJs(contents: string, settings: ITypespaceSettings): string {
         return contents
             + [
-                `\n`,
+                ``,
                 `declare var module: any;`,
                 `if (typeof module !== "undefined" && typeof module.exports !== "undefined") {`,
                 `   module.exports = ${settings.namespace};`,
-                `}`
+                `}`,
+                ``
             ].join("\n");
     }
 }
