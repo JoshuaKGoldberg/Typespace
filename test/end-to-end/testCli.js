@@ -18,7 +18,7 @@ describe("CLI", () => {
         // Assert
         expect(typespace.settings.config).to.be.equal(config);
     });
-    
+
     it("passes --config", () => {
         // Arrange
         const config = "./tsconfig.json";
@@ -66,11 +66,11 @@ describe("CLI", () => {
         // Assert
         expect(typespace.settings.namespace).to.be.equal(namespace);
     });
-    
+
     it("passes --namespace", () => {
         // Arrange
         const namespace = "MyProject";
-        const args = ["-namespace", namespace];
+        const args = ["--namespace", namespace];
 
         // Act
         const typespace = mockCli(args).typespace;
@@ -90,7 +90,7 @@ describe("CLI", () => {
         // Assert
         expect(typespace.settings.outFile).to.be.equal(outFile);
     });
-    
+
     it("passes --out-file", () => {
         // Arrange
         const outFile = "out.ts";
@@ -114,8 +114,8 @@ describe("CLI", () => {
         // Assert
         expect(typespace.settings.root).to.be.equal(root);
     });
-    
-    it("passes --config", () => {
+
+    it("passes --root", () => {
         // Arrange
         const root = "src";
         const args = ["-r", root];
@@ -125,5 +125,29 @@ describe("CLI", () => {
 
         // Assert
         expect(typespace.settings.root).to.be.equal(root);
+    });
+
+    it("passes -t", () => {
+        // Arrange
+        const target = "commonjs";
+        const args = ["-t", target];
+
+        // Act
+        const typespace = mockCli(args).typespace;
+
+        // Assert
+        expect(typespace.settings.target).to.be.equal(target);
+    });
+
+    it("passes --target", () => {
+        // Arrange
+        const target = "commonjs";
+        const args = ["-t", target];
+
+        // Act
+        const typespace = mockCli(args).typespace;
+
+        // Assert
+        expect(typespace.settings.target).to.be.equal(target);
     });
 });
