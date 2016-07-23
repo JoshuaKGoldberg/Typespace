@@ -42,7 +42,7 @@ namespace MyProject.Bar {
 
 ## Usage
 
-You can use Typespace via `require`/`import` or on the command-line. There's also a [gulp plugin](https://github.com/joshuakgoldberg/gulp-typespace) for building.
+You can use Typespace via `require`/`import` or on the command-line. There's also a [gulp plugin](https://github.com/joshuakgoldberg/gulp-typespace).
 
 Required arguments/flags:
 
@@ -54,6 +54,7 @@ Optional arguments/flags:
 * `outFile` (`-o`/`--outFile`) - output .ts file path
 * `pathPrefix` (`-p`/`--pathPrefix`) - directory root to ignore from module paths
 * `root` (`-r`/`--root`) - root path to search for files under
+* `target` (`-t`/`--target`) - module resolution target, as `"none"` or `"commonjs"`
 
 
 ### CLI

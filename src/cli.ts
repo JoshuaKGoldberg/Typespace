@@ -54,11 +54,12 @@ export function cli(argv: string[], onSuccess: IOnCliSuccess, onError: IOnCliErr
     program
         .description(metadata.description)
         .version(metadata.version)
-        .usage("-n MyProject [-c tsconfig.json] [-o output.ts] [-r path/to/files] [-f File.ts, ...]")
+        .usage("-n MyProject [-c tsconfig.json] [-o output.ts] [-r path/to/files] [-t none|commonjs]")
         .option("-c --config [path]", "input tsconfig.json file path to load files from (optional)")
         .option("-n --namespace [string]", "name of the root namespace")
         .option("-o --out-file [path]", "output .ts file path (optional)")
-        .option("-r --root [string]", "root path to search for files under")
+        .option("-r --root [string]", "root path to search for files under (optional)")
+        .option("-t --target [string]", "module resolution target (optional)")
         .parse(argv);
 
     const typespace: Typespace = new Typespace(program);

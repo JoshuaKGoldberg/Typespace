@@ -6,6 +6,11 @@ import { SourceModuleFactory } from "./Reading/SourceModuleFactory";
 import { SourceModulesPrinter } from "./Writing/SourceModulesPrinter";
 
 /**
+ * TS script targets Typespace may output to.
+ */
+export type ScriptTarget = "amd" | "commonjs" | "none";
+
+/**
  * Settings to run Typespace.
  */
 export interface ITypespaceSettings {
@@ -30,9 +35,19 @@ export interface ITypespaceSettings {
     namespace: string;
 
     /**
+     * File paths to add as definition references to the output.
+     */
+    references?: string[];
+
+    /**
      * Root path to search for files under.
      */
     root?: string;
+
+    /**
+     * Module script type this will target, if any.
+     */
+    target?: ScriptTarget;
 }
 
 /**
