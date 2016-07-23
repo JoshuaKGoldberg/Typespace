@@ -96,7 +96,7 @@ export class SourceModulesPrinter {
      */
     private addOutputReferences(contents: string, references: string[]): string {
         return references
-            .map(reference => `<reference path="${reference}" />`)
+            .map(reference => `/// <reference path="${reference}" />`)
             .join("\n")
             + "\n\n"
             + contents;
