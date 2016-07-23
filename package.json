@@ -1,6 +1,6 @@
 {
   "name": "typespace",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "author": "Josh Goldberg <joshuakgoldberg@outlook.com>",
   "repository": {
     "type": "git",
@@ -27,7 +27,6 @@
   "dependencies": {
     "babel-runtime": "^6.9.2",
     "fs-promise": "^0.5.0",
-    "gulp-mocha": "^2.2.0",
     "typescript": "^1.8.10"
   },
   "homepage": "https://github.com/JoshuaKGoldberg/Typespace#readme",
@@ -43,6 +42,7 @@
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-istanbul": "^1.0.0",
+    "gulp-mocha": "^2.2.0",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-tslint": "^5.0.0",
     "gulp-typescript": "^2.13.6",
