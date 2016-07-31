@@ -68,10 +68,14 @@ export class SourceFilePrinter {
         const imports: string[] = [];
 
         for (const moduleName in this.sourceFile.moduleDependencies) {
-            const moduleDependency: Set<string> = this.sourceFile.moduleDependencies[moduleName];
+            const moduleNameParsed: string = this.parseModuleName(moduleName);
+            if (!moduleNameParsed) {
+                continue;
+            }
 
+            const moduleDependency: Set<string> = this.sourceFile.moduleDependencies[moduleName];
             for (const item of moduleDependency) {
-                imports.push(`import ${item} = ${this.parseModuleName(moduleName)}.${item};`);
+                imports.push(`import ${item} = ${moduleNameParsed}.${item};`);
             }
         }
 
@@ -93,7 +97,9 @@ export class SourceFilePrinter {
             relativeFolderPath.shift();
         }
 
-        return relativeModulePath.join(".");
+        return relativeModulePath
+            .filter((pathComponent: string): boolean => !!pathComponent)
+            .join(".");
     }
 
     /**
