@@ -14,6 +14,7 @@ function createConversion(name) {
 
 const conversions = {
     core: createConversion("Core"),
+    enums: createConversion("Enums"),
     external: createConversion("External")
 };
 
@@ -72,6 +73,25 @@ describe("Code", () => {
         // Assert
         return conversion.then(fileContents => {
             expect(fileContents).to.be.equal(conversions.external.expected);
+        });
+    });
+
+    it("converts enums", () => {
+        // Arrange
+        const settings = {
+            config: conversions.enums.configPath,
+            namespace: "Enums",
+            pathPrefix: "src",
+            root: "test/end-to-end/enums/"
+        };
+        const converter = new Typespace(settings);
+
+        // Act
+        const conversion = converter.convert();
+
+        // Assert
+        return conversion.then(fileContents => {
+            expect(fileContents).to.be.equal(conversions.enums.expected);
         });
     });
 });
