@@ -62,8 +62,7 @@ export class SourceFile {
         this.folderPath = fullPath.substring(0, fullPath.lastIndexOf("/"));
 
         for (const node of nodes) {
-            // Todo: figure out why this works
-            if (node.kind === ts.SyntaxKind.ExportAssignment || node.kind === ts.SyntaxKind.ImportDeclaration) {
+            if (this.isNodeImport(node as ts.ImportDeclaration)) {
                 this.imports.push(node as ts.ImportDeclaration);
             } else {
                 this.nodes.push(node);
@@ -72,6 +71,17 @@ export class SourceFile {
 
         this.fileDependencies = this.getFileDependencies(this.imports);
         this.moduleDependencies = this.getModuleDependencies(this.imports);
+    }
+
+    /**
+     * Determines whether a node is an import declaration.
+     * 
+     * @param node   A node from a file.
+     * @returns Whether the node is an import declaration.
+     * @todo Figure out why this works...
+     */
+    private isNodeImport(node: ts.ImportDeclaration): node is ts.ImportDeclaration {
+        return node.moduleSpecifier && (node.kind === ts.SyntaxKind.ExportAssignment || node.kind === ts.SyntaxKind.ImportDeclaration);
     }
 
     /**
