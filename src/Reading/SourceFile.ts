@@ -196,7 +196,7 @@ export class SourceFile {
         let fullPath: string = this.folderPath.substring(0, this.folderPath.lastIndexOf("/"));
 
         while (relativePath.startsWith("../")) {
-            fullPath = fullPath.substring(0, relativePath.lastIndexOf("/"));
+            fullPath = fullPath.substring(0, fullPath.lastIndexOf("/"));
             relativePath = relativePath.substring("../".length);
         }
 
